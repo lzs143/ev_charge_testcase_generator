@@ -1,0 +1,13 @@
+{
+  "total": 42,
+  "relevant_total": 36,
+  "metrics": {
+    "is_relevant_accuracy": 1.0,
+    "scene_type_accuracy": 1.0,
+    "condition_type_accuracy": 1.0,
+    "parameters_accuracy": 1.0,
+    "fault_type_accuracy": 1.0,
+    "expected_results_accuracy": 1.0
+  },
+  "failures": []
+}

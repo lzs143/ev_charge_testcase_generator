@@ -1,0 +1,5256 @@
+[
+  {
+    "id": "STD_DC_001",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "低压辅助上电及充电握手阶段",
+    "text": "低压辅助上电及充电握手阶段，EVCC应按规定周期发送BHM车辆握手报文，随后发送BRM车辆辨识报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "发送BHM车辆握手报文",
+        "发送BRM车辆辨识报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_001",
+      "case_name": "低压辅助上电及充电握手阶段，EVCC应按规定周期发送BHM车辆握手报文，随后发送BRM车辆辨识报文",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "低压辅助上电及充电握手阶段",
+      "target_object": "EVCC",
+      "message_types": [
+        "EVCC",
+        "BHM",
+        "BRM"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入低压辅助上电及充电握手阶段",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "EVCC",
+          "parameters": {},
+          "message": "EVCC,BHM,BRM",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "低压辅助上电及充电握手阶段，EVCC应按规定周期发送BHM车辆握手报文，随后发送BRM车辆辨识报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BHM车辆握手报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BHM",
+          "operator": "should_send",
+          "expected_value": "发送BHM车辆握手报文",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BRM车辆辨识报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BRM",
+          "operator": "should_send",
+          "expected_value": "发送BRM车辆辨识报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "低压辅助上电及充电握手阶段，EVCC应按规定周期发送BHM车辆握手报文，随后发送BRM车辆辨识报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_002",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电参数配置阶段",
+    "text": "充电参数配置阶段，EVCC发送BCP车辆充电参数报文，SECC发送CML充电机最大输出能力报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "发送BCP车辆充电参数报文",
+        "发送CML充电机最大输出能力报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_002",
+      "case_name": "充电参数配置阶段，EVCC发送BCP车辆充电参数报文，SECC发送CML充电机最大输出能力报文",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电参数配置阶段",
+      "target_object": "EVCC",
+      "message_types": [
+        "EVCC",
+        "BCP",
+        "SECC",
+        "CML"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电参数配置阶段",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "EVCC",
+          "parameters": {},
+          "message": "EVCC,BCP,SECC,CML",
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "充电参数配置阶段，EVCC发送BCP车辆充电参数报文，SECC发送CML充电机最大输出能力报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BCP车辆充电参数报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BCP",
+          "operator": "should_send",
+          "expected_value": "发送BCP车辆充电参数报文",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送CML充电机最大输出能力报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "CML",
+          "operator": "should_send",
+          "expected_value": "发送CML充电机最大输出能力报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "充电参数配置阶段，EVCC发送BCP车辆充电参数报文，SECC发送CML充电机最大输出能力报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_003",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电准备就绪阶段",
+    "text": "充电参数配置完成后，EVCC发送BRO车辆充电准备就绪状态报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "发送BRO车辆充电准备就绪状态报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_003",
+      "case_name": "充电参数配置完成后，EVCC发送BRO车辆充电准备就绪状态报文",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电准备就绪阶段",
+      "target_object": "EVCC",
+      "message_types": [
+        "EVCC",
+        "BRO"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电准备就绪阶段",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "EVCC",
+          "parameters": {},
+          "message": "EVCC,BRO",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "充电参数配置完成后，EVCC发送BRO车辆充电准备就绪状态报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BRO车辆充电准备就绪状态报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BRO",
+          "operator": "should_send",
+          "expected_value": "发送BRO车辆充电准备就绪状态报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "充电参数配置完成后，EVCC发送BRO车辆充电准备就绪状态报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_004",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电准备就绪阶段",
+    "text": "SECC完成输出准备后，应发送CRO充电机输出准备就绪状态报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "发送CRO充电机输出准备就绪状态报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_004",
+      "case_name": "SECC完成输出准备后，应发送CRO充电机输出准备就绪状态报文",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电准备就绪阶段",
+      "target_object": "SECC",
+      "message_types": [
+        "SECC",
+        "CRO"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电准备就绪阶段",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "SECC",
+          "parameters": {},
+          "message": "SECC,CRO",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "SECC完成输出准备后，应发送CRO充电机输出准备就绪状态报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送CRO充电机输出准备就绪状态报文",
+          "target": "SECC",
+          "signal": null,
+          "message": "CRO",
+          "operator": "should_send",
+          "expected_value": "发送CRO充电机输出准备就绪状态报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "SECC完成输出准备后，应发送CRO充电机输出准备就绪状态报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_005",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电阶段",
+    "text": "充电阶段，EVCC周期发送BCL电池充电需求报文、BCS电池充电总状态报文和BSM车辆状态信息报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "发送BCL电池充电需求报文",
+        "发送BCS电池充电总状态报文",
+        "发送BSM车辆状态信息报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_005",
+      "case_name": "充电阶段，EVCC周期发送BCL电池充电需求报文、BCS电池充电总状态报文和BSM车辆状态信息报文",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电阶段",
+      "target_object": "EVCC",
+      "message_types": [
+        "EVCC",
+        "BCL",
+        "BCS",
+        "BSM"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电阶段",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "EVCC",
+          "parameters": {},
+          "message": "EVCC,BCL,BCS,BSM",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "充电阶段，EVCC周期发送BCL电池充电需求报文、BCS电池充电总状态报文和BSM车辆状态信息报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BCL电池充电需求报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BCL",
+          "operator": "should_send",
+          "expected_value": "发送BCL电池充电需求报文",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BCS电池充电总状态报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BCS",
+          "operator": "should_send",
+          "expected_value": "发送BCS电池充电总状态报文",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BSM车辆状态信息报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BSM",
+          "operator": "should_send",
+          "expected_value": "发送BSM车辆状态信息报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "充电阶段，EVCC周期发送BCL电池充电需求报文、BCS电池充电总状态报文和BSM车辆状态信息报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_006",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电阶段",
+    "text": "充电阶段，SECC发送CCS充电机充电状态报文，报文格式和发送周期应满足协议要求。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "发送CCS充电机充电状态报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_006",
+      "case_name": "充电阶段，SECC发送CCS充电机充电状态报文，报文格式和发送周期应满足协议要求",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电阶段",
+      "target_object": "SECC",
+      "message_types": [
+        "SECC",
+        "CCS"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电阶段",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "SECC",
+          "parameters": {},
+          "message": "SECC,CCS",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "充电阶段，SECC发送CCS充电机充电状态报文，报文格式和发送周期应满足协议要求。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送CCS充电机充电状态报文",
+          "target": "SECC",
+          "signal": null,
+          "message": "CCS",
+          "operator": "should_send",
+          "expected_value": "发送CCS充电机充电状态报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "充电阶段，SECC发送CCS充电机充电状态报文，报文格式和发送周期应满足协议要求。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_007",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电结束阶段",
+    "text": "充电结束阶段，EVCC发送BSD车辆统计数据报文，SECC发送CSD充电机统计数据报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "发送BSD车辆统计数据报文",
+        "发送CSD充电机统计数据报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_007",
+      "case_name": "充电结束阶段，EVCC发送BSD车辆统计数据报文，SECC发送CSD充电机统计数据报文",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电结束阶段",
+      "target_object": "EVCC",
+      "message_types": [
+        "EVCC",
+        "BSD",
+        "SECC",
+        "CSD"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电结束阶段",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "EVCC",
+          "parameters": {},
+          "message": "EVCC,BSD,SECC,CSD",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "充电结束阶段，EVCC发送BSD车辆统计数据报文，SECC发送CSD充电机统计数据报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BSD车辆统计数据报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BSD",
+          "operator": "should_send",
+          "expected_value": "发送BSD车辆统计数据报文",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送CSD充电机统计数据报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "CSD",
+          "operator": "should_send",
+          "expected_value": "发送CSD充电机统计数据报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "充电结束阶段，EVCC发送BSD车辆统计数据报文，SECC发送CSD充电机统计数据报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_008",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电参数配置阶段",
+    "text": "直流充电参数配置阶段，设置最高允许充电电压为750V，最大允许充电电流为250A。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {
+        "voltage": "750V",
+        "current": "250A"
+      },
+      "fault_type": null,
+      "expected_results": [
+        "完成参数配置"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_008",
+      "case_name": "直流充电参数配置阶段，设置最高允许充电电压为750V，最大允许充电电流为250A",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电参数配置阶段",
+      "target_object": "充电系统",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电参数配置阶段",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "设置测试参数",
+          "action_type": "设置参数",
+          "target": "充电系统",
+          "parameters": {
+            "voltage": "750V",
+            "current": "250A"
+          },
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "直流充电参数配置阶段，设置最高允许充电电压为750V，最大允许充电电流为250A。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "完成参数配置",
+          "target": "充电系统",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "完成参数配置",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {
+        "voltage": "750V",
+        "current": "250A"
+      },
+      "fault_type": null,
+      "raw_requirement": "直流充电参数配置阶段，设置最高允许充电电压为750V，最大允许充电电流为250A。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_009",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "低压辅助上电及充电握手阶段",
+    "text": "充电握手阶段，测试系统未收到CHM充电机握手报文且等待超时后，EVCC应发送BEM错误报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "报文超时",
+      "expected_results": [
+        "发送BEM错误报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_009",
+      "case_name": "充电握手阶段，测试系统未收到CHM充电机握手报文且等待超时后，EVCC应发送BEM错误报文",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "低压辅助上电及充电握手阶段",
+      "target_object": "EVCC",
+      "message_types": [
+        "CHM",
+        "EVCC",
+        "BEM"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入低压辅助上电及充电握手阶段",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "充电握手阶段，测试系统未收到CHM充电机握手报文且等待超时后，EVCC应发送BE",
+          "action_type": "等待",
+          "target": "EVCC",
+          "parameters": {},
+          "message": "CHM,EVCC,BEM",
+          "signal": "CC",
+          "duration_ms": 70000,
+          "timeout_ms": 70000,
+          "required": true,
+          "description": "充电握手阶段，测试系统未收到CHM充电机握手报文且等待超时后，EVCC应发送BEM错误报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BEM错误报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BEM",
+          "operator": "should_send",
+          "expected_value": "发送BEM错误报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "报文超时",
+      "raw_requirement": "充电握手阶段，测试系统未收到CHM充电机握手报文且等待超时后，EVCC应发送BEM错误报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_010",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "低压辅助上电及充电握手阶段",
+    "text": "辨识阶段，测试系统未收到BRM车辆辨识报文且超过规定时间，SECC应发送CEM错误报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "报文超时",
+      "expected_results": [
+        "发送CEM错误报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_010",
+      "case_name": "辨识阶段，测试系统未收到BRM车辆辨识报文且超过规定时间，SECC应发送CEM错误报文",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "低压辅助上电及充电握手阶段",
+      "target_object": "SECC",
+      "message_types": [
+        "BRM",
+        "SECC",
+        "CEM"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入低压辅助上电及充电握手阶段",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "辨识阶段，测试系统未收到BRM车辆辨识报文且超过规定时间，SECC应发送CEM错",
+          "action_type": "发送报文",
+          "target": "SECC",
+          "parameters": {},
+          "message": "BRM,SECC,CEM",
+          "signal": "CC",
+          "duration_ms": 70000,
+          "timeout_ms": 70000,
+          "required": true,
+          "description": "辨识阶段，测试系统未收到BRM车辆辨识报文且超过规定时间，SECC应发送CEM错误报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送CEM错误报文",
+          "target": "SECC",
+          "signal": null,
+          "message": "CEM",
+          "operator": "should_send",
+          "expected_value": "发送CEM错误报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "报文超时",
+      "raw_requirement": "辨识阶段，测试系统未收到BRM车辆辨识报文且超过规定时间，SECC应发送CEM错误报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_011",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电参数配置阶段",
+    "text": "充电参数配置阶段，当BCP报文中的必需项参数不符合数据域定义范围时，SECC应忽略报文内容，直至报文超时。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "报文参数越界",
+      "expected_results": [
+        "忽略报文内容",
+        "直至报文超时"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_011",
+      "case_name": "充电参数配置阶段，当BCP报文中的必需项参数不符合数据域定义范围时，SECC应忽略报文内容，直至报文超时",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电参数配置阶段",
+      "target_object": "SECC",
+      "message_types": [
+        "BCP",
+        "SECC"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电参数配置阶段",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "SECC",
+          "parameters": {},
+          "message": "BCP,SECC",
+          "signal": "CP",
+          "duration_ms": 70000,
+          "timeout_ms": 70000,
+          "required": true,
+          "description": "充电参数配置阶段，当BCP报文中的必需项参数不符合数据域定义范围时，SECC应忽略报文内容，直至报文超时。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "忽略报文内容",
+          "target": "SECC",
+          "signal": null,
+          "message": "BCP,SECC",
+          "operator": "should_equal",
+          "expected_value": "忽略报文内容",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "直至报文超时",
+          "target": "SECC",
+          "signal": null,
+          "message": "BCP,SECC",
+          "operator": "should_equal",
+          "expected_value": "直至报文超时",
+          "timeout_ms": 70000
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "报文参数越界",
+      "raw_requirement": "充电参数配置阶段，当BCP报文中的必需项参数不符合数据域定义范围时，SECC应忽略报文内容，直至报文超时。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_012",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电参数配置阶段",
+    "text": "当IUT收到的BCP、CML或BCL报文电流值超出规定范围时，应退出充电过程。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "电流越界",
+      "expected_results": [
+        "退出充电过程"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_012",
+      "case_name": "当IUT收到的BCP、CML或BCL报文电流值超出规定范围时，应退出充电过程",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电参数配置阶段",
+      "target_object": "充电系统",
+      "message_types": [
+        "BCP",
+        "CML",
+        "BCL"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电参数配置阶段",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "充电系统",
+          "parameters": {},
+          "message": "BCP,CML,BCL",
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "当IUT收到的BCP、CML或BCL报文电流值超出规定范围时，应退出充电过程。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "退出充电过程",
+          "target": "充电系统",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "退出充电过程",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "电流越界",
+      "raw_requirement": "当IUT收到的BCP、CML或BCL报文电流值超出规定范围时，应退出充电过程。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_013",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电中止阶段",
+    "text": "SECC模拟绝缘检测故障后，应发送CST充电机中止充电报文，并进入充电中止过程。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "绝缘故障",
+      "expected_results": [
+        "发送CST充电机中止充电报文",
+        "进入充电中止过程"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_013",
+      "case_name": "SECC模拟绝缘检测故障后，应发送CST充电机中止充电报文，并进入充电中止过程",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电中止阶段",
+      "target_object": "SECC",
+      "message_types": [
+        "SECC",
+        "CST"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电中止阶段",
+          "target": "SECC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "SECC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "SECC",
+          "parameters": {},
+          "message": "SECC,CST",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "SECC模拟绝缘检测故障后，应发送CST充电机中止充电报文，并进入充电中止过程。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送CST充电机中止充电报文",
+          "target": "SECC",
+          "signal": null,
+          "message": "CST",
+          "operator": "should_send",
+          "expected_value": "发送CST充电机中止充电报文",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "进入充电中止过程",
+          "target": "SECC",
+          "signal": null,
+          "message": null,
+          "operator": "should_enter",
+          "expected_value": "进入充电中止过程",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "绝缘故障",
+      "raw_requirement": "SECC模拟绝缘检测故障后，应发送CST充电机中止充电报文，并进入充电中止过程。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_014",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电中止阶段",
+    "text": "EVCC检测到车辆端中止充电条件后，应周期发送BST车辆中止充电报文。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "车辆中止充电",
+      "expected_results": [
+        "发送BST车辆中止充电报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_014",
+      "case_name": "EVCC检测到车辆端中止充电条件后，应周期发送BST车辆中止充电报文",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电中止阶段",
+      "target_object": "EVCC",
+      "message_types": [
+        "EVCC",
+        "BST"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电中止阶段",
+          "target": "EVCC",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "EVCC",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "EVCC",
+          "parameters": {},
+          "message": "EVCC,BST",
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "EVCC检测到车辆端中止充电条件后，应周期发送BST车辆中止充电报文。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送BST车辆中止充电报文",
+          "target": "EVCC",
+          "signal": null,
+          "message": "BST",
+          "operator": "should_send",
+          "expected_value": "发送BST车辆中止充电报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "车辆中止充电",
+      "raw_requirement": "EVCC检测到车辆端中止充电条件后，应周期发送BST车辆中止充电报文。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_015",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电阶段",
+    "text": "直流充电阶段，当BMS通信中断时，系统应停止输出并记录故障信息。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "BMS通信中断",
+      "expected_results": [
+        "停止输出",
+        "记录故障信息"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_015",
+      "case_name": "直流充电阶段，当BMS通信中断时，系统应停止输出并记录故障信息",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电阶段",
+      "target_object": "BMS",
+      "message_types": [
+        "BMS"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "BMS",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "BMS",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电阶段",
+          "target": "BMS",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "BMS",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "BMS",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "BMS",
+          "parameters": {},
+          "message": "BMS",
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "直流充电阶段，当BMS通信中断时，系统应停止输出并记录故障信息。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止输出",
+          "target": "BMS",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止输出",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "记录故障信息",
+          "target": "BMS",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "记录故障信息",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "BMS通信中断",
+      "raw_requirement": "直流充电阶段，当BMS通信中断时，系统应停止输出并记录故障信息。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_DC_016",
+    "category": "standard",
+    "standard_source": "GB/T 34658-2025",
+    "test_stage": "充电中止阶段",
+    "text": "直流充电过程中，当急停触发时，系统应停止输出并进入停机流程。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "急停",
+      "expected_results": [
+        "停止输出",
+        "进入停机流程"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_DC_016",
+      "case_name": "直流充电过程中，当急停触发时，系统应停止输出并进入停机流程",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 34658-2025",
+      "test_stage": "充电中止阶段",
+      "target_object": "充电系统",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电中止阶段",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流充电过程中，当急停触发时，系统应停止输出并进入停机流程。",
+          "action_type": "状态控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "直流充电过程中，当急停触发时，系统应停止输出并进入停机流程。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止输出",
+          "target": "充电系统",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止输出",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "进入停机流程",
+          "target": "充电系统",
+          "signal": null,
+          "message": null,
+          "operator": "should_enter",
+          "expected_value": "进入停机流程",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "急停",
+      "raw_requirement": "直流充电过程中，当急停触发时，系统应停止输出并进入停机流程。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_001",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "连接确认阶段",
+    "text": "交流充电连接确认阶段，供电设备应通过CC连接确认信号判断车辆接口连接状态。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "完成连接确认"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_001",
+      "case_name": "交流充电连接确认阶段，供电设备应通过CC连接确认信号判断车辆接口连接状态",
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "连接确认阶段",
+      "target_object": "车辆",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入连接确认阶段",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电连接确认阶段，供电设备应通过CC连接确认信号判断车辆接口连接状态。",
+          "action_type": "连接控制",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电连接确认阶段，供电设备应通过CC连接确认信号判断车辆接口连接状态。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "完成连接确认",
+          "target": "车辆",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "完成连接确认",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "交流充电连接确认阶段，供电设备应通过CC连接确认信号判断车辆接口连接状态。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_002",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "导引控制阶段",
+    "text": "交流充电导引控制阶段，CP占空比为50%，车辆应判断允许充电。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "parameters": {
+        "cp_duty": "50%"
+      },
+      "fault_type": null,
+      "expected_results": [
+        "允许充电"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_002",
+      "case_name": "交流充电导引控制阶段，CP占空比为50%，车辆应判断允许充电",
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "导引控制阶段",
+      "target_object": "车辆",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入导引控制阶段",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "设置测试参数",
+          "action_type": "设置参数",
+          "target": "车辆",
+          "parameters": {
+            "cp_duty": "50%"
+          },
+          "message": null,
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电导引控制阶段，CP占空比为50%，车辆应判断允许充电。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "允许充电",
+          "target": "车辆",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "允许充电",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {
+        "cp_duty": "50%"
+      },
+      "fault_type": null,
+      "raw_requirement": "交流充电导引控制阶段，CP占空比为50%，车辆应判断允许充电。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_003",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "充电阶段",
+    "text": "交流充电过程中，CP信号状态正常后，系统开始充电并进入能量传输阶段。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "进入能量传输阶段"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_003",
+      "case_name": "交流充电过程中，CP信号状态正常后，系统开始充电并进入能量传输阶段",
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "充电阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电过程中，CP信号状态正常后，系统开始充电并进入能量传输阶段。",
+          "action_type": "执行动作",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电过程中，CP信号状态正常后，系统开始充电并进入能量传输阶段。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "进入能量传输阶段",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_enter",
+          "expected_value": "进入能量传输阶段",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "交流充电过程中，CP信号状态正常后，系统开始充电并进入能量传输阶段。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_004",
+    "category": "standard",
+    "standard_source": "GB/T 20234.1-2023",
+    "test_stage": "连接装置检查阶段",
+    "text": "交流充电连接装置锁止状态正常，车辆接口连接确认通过。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "完成连接确认"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_004",
+      "case_name": "交流充电连接装置锁止状态正常，车辆接口连接确认通过",
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 20234.1-2023",
+      "test_stage": "连接装置检查阶段",
+      "target_object": "车辆",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入连接装置检查阶段",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电连接装置锁止状态正常，车辆接口连接确认通过。",
+          "action_type": "连接控制",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电连接装置锁止状态正常，车辆接口连接确认通过。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "完成连接确认",
+          "target": "车辆",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "完成连接确认",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "交流充电连接装置锁止状态正常，车辆接口连接确认通过。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_005",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "充电结束阶段",
+    "text": "交流充电结束后，供电设备停止充电并断开输出。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "停止充电"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_005",
+      "case_name": "交流充电结束后，供电设备停止充电并断开输出",
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "充电结束阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电结束阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电结束后，供电设备停止充电并断开输出。",
+          "action_type": "状态控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电结束后，供电设备停止充电并断开输出。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "交流充电结束后，供电设备停止充电并断开输出。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_006",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "导引控制阶段",
+    "text": "交流导引控制完成后，系统进入能量传输阶段。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": [
+        "进入能量传输阶段"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_006",
+      "case_name": "交流导引控制完成后，系统进入能量传输阶段",
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "test_type": "positive",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "导引控制阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入导引控制阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流导引控制完成后，系统进入能量传输阶段。",
+          "action_type": "执行动作",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流导引控制完成后，系统进入能量传输阶段。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "进入能量传输阶段",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_enter",
+          "expected_value": "进入能量传输阶段",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": null,
+      "raw_requirement": "交流导引控制完成后，系统进入能量传输阶段。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_007",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "导引控制阶段",
+    "text": "交流充电过程中，当CP信号异常时，应停止充电并提示异常状态。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "CP信号异常",
+      "expected_results": [
+        "停止充电",
+        "提示异常状态"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_007",
+      "case_name": "交流充电过程中，当CP信号异常时，应停止充电并提示异常状态",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "导引控制阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入导引控制阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电过程中，当CP信号异常时，应停止充电并提示异常状态。",
+          "action_type": "状态控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电过程中，当CP信号异常时，应停止充电并提示异常状态。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "提示异常状态",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "提示异常状态",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "CP信号异常",
+      "raw_requirement": "交流充电过程中，当CP信号异常时，应停止充电并提示异常状态。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_008",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "连接确认阶段",
+    "text": "交流充电连接确认阶段，当CC信号异常时，系统应停止充电。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "CC信号异常",
+      "expected_results": [
+        "停止充电"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_008",
+      "case_name": "交流充电连接确认阶段，当CC信号异常时，系统应停止充电",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "连接确认阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入连接确认阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电连接确认阶段，当CC信号异常时，系统应停止充电。",
+          "action_type": "状态控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电连接确认阶段，当CC信号异常时，系统应停止充电。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "CC信号异常",
+      "raw_requirement": "交流充电连接确认阶段，当CC信号异常时，系统应停止充电。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_009",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "导引控制阶段",
+    "text": "交流充电过程中，CP占空比为10%且CP信号异常时，应停止充电。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {
+        "cp_duty": "10%"
+      },
+      "fault_type": "CP信号异常",
+      "expected_results": [
+        "停止充电"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_009",
+      "case_name": "交流充电过程中，CP占空比为10%且CP信号异常时，应停止充电",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "导引控制阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入导引控制阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "设置测试参数",
+          "action_type": "设置参数",
+          "target": "供电设备",
+          "parameters": {
+            "cp_duty": "10%"
+          },
+          "message": null,
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电过程中，CP占空比为10%且CP信号异常时，应停止充电。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {
+        "cp_duty": "10%"
+      },
+      "fault_type": "CP信号异常",
+      "raw_requirement": "交流充电过程中，CP占空比为10%且CP信号异常时，应停止充电。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_010",
+    "category": "standard",
+    "standard_source": "GB/T 20234.1-2023",
+    "test_stage": "连接装置检查阶段",
+    "text": "交流充电过程中，当车辆接口连接断开时，供电设备应停止充电并记录故障信息。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "连接断开",
+      "expected_results": [
+        "停止充电",
+        "记录故障信息"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_010",
+      "case_name": "交流充电过程中，当车辆接口连接断开时，供电设备应停止充电并记录故障信息",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 20234.1-2023",
+      "test_stage": "连接装置检查阶段",
+      "target_object": "车辆",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入连接装置检查阶段",
+          "target": "车辆",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电过程中，当车辆接口连接断开时，供电设备应停止充电并记录故障信息。",
+          "action_type": "状态控制",
+          "target": "车辆",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电过程中，当车辆接口连接断开时，供电设备应停止充电并记录故障信息。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "车辆",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "记录故障信息",
+          "target": "车辆",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "记录故障信息",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "连接断开",
+      "raw_requirement": "交流充电过程中，当车辆接口连接断开时，供电设备应停止充电并记录故障信息。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_011",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "安全保护阶段",
+    "text": "交流充电过程中，保护接地连续性失效时，应停止充电并提示异常状态。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "保护接地故障",
+      "expected_results": [
+        "停止充电",
+        "提示异常状态"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_011",
+      "case_name": "交流充电过程中，保护接地连续性失效时，应停止充电并提示异常状态",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "安全保护阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入安全保护阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电过程中，保护接地连续性失效时，应停止充电并提示异常状态。",
+          "action_type": "状态控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电过程中，保护接地连续性失效时，应停止充电并提示异常状态。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "提示异常状态",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "提示异常状态",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "保护接地故障",
+      "raw_requirement": "交流充电过程中，保护接地连续性失效时，应停止充电并提示异常状态。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "STD_AC_012",
+    "category": "standard",
+    "standard_source": "GB/T 18487.1-2023",
+    "test_stage": "安全保护阶段",
+    "text": "交流充电过程中，当输出电流越界时，系统应停止充电。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "电流越界",
+      "expected_results": [
+        "停止充电"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "STD_AC_012",
+      "case_name": "交流充电过程中，当输出电流越界时，系统应停止充电",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "negative",
+      "standard_source": "GB/T 18487.1-2023",
+      "test_stage": "安全保护阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入安全保护阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流充电过程中，当输出电流越界时，系统应停止充电。",
+          "action_type": "状态控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流充电过程中，当输出电流越界时，系统应停止充电。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "电流越界",
+      "raw_requirement": "交流充电过程中，当输出电流越界时，系统应停止充电。",
+      "metadata": {
+        "category": "standard",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_001",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "充电参数配置阶段",
+    "text": "500V、30A直流正常充电，系统完成参数配置。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {
+        "voltage": "500V",
+        "current": "30A"
+      },
+      "fault_type": null,
+      "expected_results": [
+        "完成参数配置"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_001",
+      "case_name": "500V、30A直流正常充电，系统完成参数配置",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "robust_positive",
+      "standard_source": "人工改写",
+      "test_stage": "充电参数配置阶段",
+      "target_object": "充电系统",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电参数配置阶段",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "设置测试参数",
+          "action_type": "设置参数",
+          "target": "充电系统",
+          "parameters": {
+            "voltage": "500V",
+            "current": "30A"
+          },
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "500V、30A直流正常充电，系统完成参数配置。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "完成参数配置",
+          "target": "充电系统",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "完成参数配置",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {
+        "voltage": "500V",
+        "current": "30A"
+      },
+      "fault_type": null,
+      "raw_requirement": "500V、30A直流正常充电，系统完成参数配置。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_002",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "导引控制阶段",
+    "text": "CP异常，停止充电并记录故障信息。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "CP信号异常",
+      "expected_results": [
+        "停止充电",
+        "记录故障信息"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_002",
+      "case_name": "CP异常，停止充电并记录故障信息",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "robust_negative",
+      "standard_source": "人工改写",
+      "test_stage": "导引控制阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入导引控制阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "CP异常，停止充电并记录故障信息。",
+          "action_type": "状态控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "CP异常，停止充电并记录故障信息。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        },
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "记录故障信息",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "记录故障信息",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "CP信号异常",
+      "raw_requirement": "CP异常，停止充电并记录故障信息。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_003",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "充电阶段",
+    "text": "BMS没响应，桩停止输出。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "通信中断",
+      "expected_results": [
+        "停止输出"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_003",
+      "case_name": "BMS没响应，桩停止输出",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "robust_negative",
+      "standard_source": "人工改写",
+      "test_stage": "充电阶段",
+      "target_object": "BMS",
+      "message_types": [
+        "BMS"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "BMS",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "BMS",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电阶段",
+          "target": "BMS",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "BMS",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "BMS",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "BMS",
+          "parameters": {},
+          "message": "BMS",
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "BMS没响应，桩停止输出。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止输出",
+          "target": "BMS",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止输出",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "通信中断",
+      "raw_requirement": "BMS没响应，桩停止输出。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_004",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "预充阶段",
+    "text": "预充结束后，把电压拉到500V。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "parameters": {
+        "voltage": "500V"
+      },
+      "fault_type": null,
+      "expected_results": []
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_004",
+      "case_name": "预充结束后，把电压拉到500V",
+      "scene_type": "DC",
+      "condition_type": "normal",
+      "test_type": "robust_positive",
+      "standard_source": "人工改写",
+      "test_stage": "预充阶段",
+      "target_object": "充电系统",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入预充阶段",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "设置测试参数",
+          "action_type": "设置参数",
+          "target": "充电系统",
+          "parameters": {
+            "voltage": "500V"
+          },
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "预充结束后，把电压拉到500V。"
+        }
+      ],
+      "assertions": [],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {
+        "voltage": "500V"
+      },
+      "fault_type": null,
+      "raw_requirement": "预充结束后，把电压拉到500V。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_005",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "充电中止阶段",
+    "text": "BCL电流不对，直接退充。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "电流越界",
+      "expected_results": [
+        "退出充电过程"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_005",
+      "case_name": "BCL电流不对，直接退充",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "robust_negative",
+      "standard_source": "人工改写",
+      "test_stage": "充电中止阶段",
+      "target_object": "充电系统",
+      "message_types": [
+        "BCL"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入充电中止阶段",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "按测试需求发送或等待相关报文",
+          "action_type": "等待",
+          "target": "充电系统",
+          "parameters": {},
+          "message": "BCL",
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "BCL电流不对，直接退充。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "退出充电过程",
+          "target": "充电系统",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "退出充电过程",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "电流越界",
+      "raw_requirement": "BCL电流不对，直接退充。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_006",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "低压辅助上电及充电握手阶段",
+    "text": "收不到BRM，超时后报错。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "报文超时",
+      "expected_results": [
+        "发送错误报文"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_006",
+      "case_name": "收不到BRM，超时后报错",
+      "scene_type": "DC",
+      "condition_type": "fault",
+      "test_type": "robust_negative",
+      "standard_source": "人工改写",
+      "test_stage": "低压辅助上电及充电握手阶段",
+      "target_object": "充电系统",
+      "message_types": [
+        "BRM"
+      ],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "测试系统和被测对象完成物理连接",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "直流充电通信配置完成",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入低压辅助上电及充电握手阶段",
+          "target": "充电系统",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "直流插枪初始化",
+          "action_type": "初始化",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流插枪",
+          "action_type": "连接控制",
+          "target": "充电系统",
+          "parameters": {},
+          "message": null,
+          "signal": "CC2",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "收不到BRM，超时后报错。",
+          "action_type": "等待",
+          "target": "充电系统",
+          "parameters": {},
+          "message": "BRM",
+          "signal": null,
+          "duration_ms": 70000,
+          "timeout_ms": 70000,
+          "required": true,
+          "description": "收不到BRM，超时后报错。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "message",
+          "description": "发送错误报文",
+          "target": "充电系统",
+          "signal": null,
+          "message": "BRM",
+          "operator": "should_send",
+          "expected_value": "发送错误报文",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "清空消息",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "直流高压复位",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "直流低压复位",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "报文超时",
+      "raw_requirement": "收不到BRM，超时后报错。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_007",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "安全保护阶段",
+    "text": "交流口断了，停充。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "parameters": {},
+      "fault_type": "连接断开",
+      "expected_results": [
+        "停止充电"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_007",
+      "case_name": "交流口断了，停充",
+      "scene_type": "AC",
+      "condition_type": "fault",
+      "test_type": "robust_negative",
+      "standard_source": "人工改写",
+      "test_stage": "安全保护阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入安全保护阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "交流口断了，停充。",
+          "action_type": "执行动作",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "交流口断了，停充。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "停止充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "停止充电",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {},
+      "fault_type": "连接断开",
+      "raw_requirement": "交流口断了，停充。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "ROBUST_008",
+    "category": "robust",
+    "standard_source": "人工改写",
+    "test_stage": "导引控制阶段",
+    "text": "CP占空比50%，交流允许充。",
+    "gold": {
+      "is_relevant": true,
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "parameters": {
+        "cp_duty": "50%"
+      },
+      "fault_type": null,
+      "expected_results": [
+        "允许充电"
+      ]
+    },
+    "executable_gold": {
+      "is_relevant": true,
+      "case_id": "ROBUST_008",
+      "case_name": "CP占空比50%，交流允许充",
+      "scene_type": "AC",
+      "condition_type": "normal",
+      "test_type": "robust_positive",
+      "standard_source": "人工改写",
+      "test_stage": "导引控制阶段",
+      "target_object": "供电设备",
+      "message_types": [],
+      "preconditions": [
+        {
+          "condition_id": "PRE-001",
+          "description": "交流充电接口连接准备完成",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-002",
+          "description": "供电设备和车辆连接状态可检测",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "condition_id": "PRE-003",
+          "description": "进入导引控制阶段",
+          "target": "供电设备",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "交流插枪初始化",
+          "action_type": "初始化",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": null,
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立测试初始状态"
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流插枪",
+          "action_type": "连接控制",
+          "target": "供电设备",
+          "parameters": {},
+          "message": null,
+          "signal": "CP/CC",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "建立充电连接"
+        },
+        {
+          "step_id": 3,
+          "action_id": null,
+          "action_name": "设置测试参数",
+          "action_type": "设置参数",
+          "target": "供电设备",
+          "parameters": {
+            "cp_duty": "50%"
+          },
+          "message": null,
+          "signal": "CP",
+          "duration_ms": null,
+          "timeout_ms": null,
+          "required": true,
+          "description": "CP占空比50%，交流允许充。"
+        }
+      ],
+      "assertions": [
+        {
+          "assertion_id": null,
+          "assertion_type": "state",
+          "description": "允许充电",
+          "target": "供电设备",
+          "signal": null,
+          "message": null,
+          "operator": "should_equal",
+          "expected_value": "允许充电",
+          "timeout_ms": null
+        }
+      ],
+      "cleanup_steps": [
+        {
+          "step_id": 1,
+          "action_id": null,
+          "action_name": "停止充电",
+          "parameters": {},
+          "required": true
+        },
+        {
+          "step_id": 2,
+          "action_id": null,
+          "action_name": "交流拔枪恢复",
+          "parameters": {},
+          "required": true
+        }
+      ],
+      "parameters": {
+        "cp_duty": "50%"
+      },
+      "fault_type": null,
+      "raw_requirement": "CP占空比50%，交流允许充。",
+      "metadata": {
+        "category": "robust",
+        "annotation_version": "executable_v1"
+      }
+    }
+  },
+  {
+    "id": "NOISE_001",
+    "category": "noise",
+    "standard_source": "无关输入",
+    "test_stage": null,
+    "text": "今天学习了BMS通信协议的基本概念，不生成测试用例。",
+    "gold": {
+      "is_relevant": false,
+      "scene_type": null,
+      "condition_type": null,
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": []
+    },
+    "executable_gold": {
+      "is_relevant": false,
+      "reject_reason": "无关输入文本，不生成可执行测试用例"
+    }
+  },
+  {
+    "id": "NOISE_002",
+    "category": "noise",
+    "standard_source": "无关输入",
+    "test_stage": null,
+    "text": "请整理交流会议纪要，并统计参会人员名单。",
+    "gold": {
+      "is_relevant": false,
+      "scene_type": null,
+      "condition_type": null,
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": []
+    },
+    "executable_gold": {
+      "is_relevant": false,
+      "reject_reason": "无关输入文本，不生成可执行测试用例"
+    }
+  },
+  {
+    "id": "NOISE_003",
+    "category": "noise",
+    "standard_source": "无关输入",
+    "test_stage": null,
+    "text": "客户反馈充电桩外观异常，需要安排售后人员现场检查。",
+    "gold": {
+      "is_relevant": false,
+      "scene_type": null,
+      "condition_type": null,
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": []
+    },
+    "executable_gold": {
+      "is_relevant": false,
+      "reject_reason": "无关输入文本，不生成可执行测试用例"
+    }
+  },
+  {
+    "id": "NOISE_004",
+    "category": "noise",
+    "standard_source": "无关输入",
+    "test_stage": null,
+    "text": "办公室电流不稳定，请联系物业排查配电箱。",
+    "gold": {
+      "is_relevant": false,
+      "scene_type": null,
+      "condition_type": null,
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": []
+    },
+    "executable_gold": {
+      "is_relevant": false,
+      "reject_reason": "无关输入文本，不生成可执行测试用例"
+    }
+  },
+  {
+    "id": "NOISE_005",
+    "category": "noise",
+    "standard_source": "无关输入",
+    "test_stage": null,
+    "text": "请对GB/T 27930标准目录进行排版，不需要生成充电测试步骤。",
+    "gold": {
+      "is_relevant": false,
+      "scene_type": null,
+      "condition_type": null,
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": []
+    },
+    "executable_gold": {
+      "is_relevant": false,
+      "reject_reason": "无关输入文本，不生成可执行测试用例"
+    }
+  },
+  {
+    "id": "NOISE_006",
+    "category": "noise",
+    "standard_source": "无关输入",
+    "test_stage": null,
+    "text": "实验室空调交流接触器异常，请通知维修人员处理。",
+    "gold": {
+      "is_relevant": false,
+      "scene_type": null,
+      "condition_type": null,
+      "parameters": {},
+      "fault_type": null,
+      "expected_results": []
+    },
+    "executable_gold": {
+      "is_relevant": false,
+      "reject_reason": "无关输入文本，不生成可执行测试用例"
+    }
+  }
+]

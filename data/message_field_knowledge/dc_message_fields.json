@@ -1,0 +1,720 @@
+{
+  "schema_version": "0.1",
+  "standard_basis": [
+    "GB/T 27930-2023"
+  ],
+  "description": "直流充电通信报文字段知识库，用于把自然语言参数映射到具体报文和字段。本文件服务语义抽取与故障注入，不替代标准原文表格。",
+  "common_fault_parameters": {
+    "message_variant": {
+      "normal": "valid",
+      "content_error": "invalid_content",
+      "cycle_error": "invalid_cycle",
+      "id_error": "invalid_id"
+    },
+    "default_cycle_ms": 250,
+    "default_message_id": "default"
+  },
+  "messages": {
+    "CHM": {
+      "message_name": "充电机握手报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "低压辅助上电及充电握手阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "protocol_version",
+          "field_name": "通信协议版本号",
+          "spn": null,
+          "aliases": ["协议版本", "通信协议版本", "版本号", "GBT版本"],
+          "semantic_keys": ["version", "protocol_version"],
+          "value_type": "version",
+          "required": true,
+          "default_value": "GBT2023",
+          "invalid_values": ["unsupported_version", "invalid_version"]
+        }
+      ]
+    },
+    "BHM": {
+      "message_name": "车辆握手报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "低压辅助上电及充电握手阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "max_allowable_total_voltage",
+          "field_name": "车辆端绝缘监测允许总电压",
+          "spn": "SPN2601",
+          "aliases": ["最高允许总电压", "允许总电压", "绝缘监测允许总电压", "SPN2601"],
+          "semantic_keys": ["voltage", "max_voltage"],
+          "value_type": "number",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_voltage",
+          "invalid_values": ["out_of_range", "0xFFFF"]
+        }
+      ]
+    },
+    "CRM": {
+      "message_name": "充电机辨识报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "辨识阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "recognition_result",
+          "field_name": "辨识结果",
+          "spn": null,
+          "aliases": ["辨识结果", "识别结果", "确认结果", "充电机辨识结果"],
+          "semantic_keys": ["recognition_result", "result"],
+          "value_type": "enum",
+          "required": true,
+          "default_value": "00",
+          "normal_values": ["00"],
+          "invalid_values": ["FF", "invalid_enum"]
+        },
+        {
+          "field_id": "charger_id",
+          "field_name": "充电机编号",
+          "spn": null,
+          "aliases": ["充电机编号", "桩编号", "设备编号"],
+          "semantic_keys": ["charger_id", "device_id"],
+          "value_type": "string",
+          "required": false,
+          "default_value": "default",
+          "invalid_values": ["invalid_id"]
+        }
+      ]
+    },
+    "BRM": {
+      "message_name": "车辆辨识报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "辨识阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "protocol_version",
+          "field_name": "通信协议版本号",
+          "spn": null,
+          "aliases": ["协议版本", "通信协议版本", "版本号"],
+          "semantic_keys": ["version", "protocol_version"],
+          "value_type": "version",
+          "required": true,
+          "default_value": "GBT2023",
+          "invalid_values": ["unsupported_version"]
+        },
+        {
+          "field_id": "battery_type",
+          "field_name": "电池类型",
+          "spn": null,
+          "aliases": ["电池类型", "动力蓄电池类型"],
+          "semantic_keys": ["battery_type"],
+          "value_type": "enum",
+          "required": true,
+          "default_value": "default",
+          "invalid_values": ["invalid_enum"]
+        },
+        {
+          "field_id": "rated_capacity",
+          "field_name": "整车动力蓄电池系统额定容量",
+          "spn": null,
+          "aliases": ["额定容量", "电池额定容量", "动力蓄电池额定容量"],
+          "semantic_keys": ["capacity"],
+          "value_type": "number",
+          "unit": "Ah",
+          "required": true,
+          "default_value": "normal_capacity",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "vin",
+          "field_name": "车辆识别码",
+          "spn": null,
+          "aliases": ["VIN", "车辆识别码", "车架号"],
+          "semantic_keys": ["vin"],
+          "value_type": "string",
+          "required": true,
+          "default_value": "default_vin",
+          "invalid_values": ["invalid_length", "invalid_chars"]
+        }
+      ]
+    },
+    "CTS": {
+      "message_name": "充电机时间同步信息报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "时间同步阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "timestamp",
+          "field_name": "充电机当前时间",
+          "spn": null,
+          "aliases": ["当前时间", "时间同步", "充电机时间", "时钟"],
+          "semantic_keys": ["timestamp", "time"],
+          "value_type": "datetime",
+          "required": true,
+          "default_value": "current_time",
+          "invalid_values": ["invalid_time", "out_of_range"]
+        }
+      ]
+    },
+    "CML": {
+      "message_name": "充电机最大输出能力报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "充电参数配置阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "max_output_voltage",
+          "field_name": "最高输出电压",
+          "spn": null,
+          "aliases": ["最高输出电压", "最大输出电压", "输出电压上限"],
+          "semantic_keys": ["max_voltage", "voltage"],
+          "value_type": "number",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_max_voltage",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "min_output_voltage",
+          "field_name": "最低输出电压",
+          "spn": null,
+          "aliases": ["最低输出电压", "最小输出电压", "输出电压下限"],
+          "semantic_keys": ["min_voltage"],
+          "value_type": "number",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_min_voltage",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "max_output_current",
+          "field_name": "最高输出电流",
+          "spn": null,
+          "aliases": ["最高输出电流", "最大输出电流", "输出电流上限"],
+          "semantic_keys": ["max_current", "current"],
+          "value_type": "number",
+          "unit": "A",
+          "required": true,
+          "default_value": "normal_max_current",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "min_output_current",
+          "field_name": "最低输出电流",
+          "spn": null,
+          "aliases": ["最低输出电流", "最小输出电流", "输出电流下限"],
+          "semantic_keys": ["min_current"],
+          "value_type": "number",
+          "unit": "A",
+          "required": true,
+          "default_value": "normal_min_current",
+          "invalid_values": ["out_of_range"]
+        }
+      ]
+    },
+    "BCP": {
+      "message_name": "车辆充电参数报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电参数配置阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "max_allowable_voltage",
+          "field_name": "最高允许充电电压",
+          "spn": null,
+          "aliases": ["最高允许充电电压", "允许充电电压", "电压上限"],
+          "semantic_keys": ["max_voltage", "voltage"],
+          "value_type": "number",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_max_voltage",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "max_allowable_current",
+          "field_name": "最高允许充电电流",
+          "spn": null,
+          "aliases": ["最高允许充电电流", "允许充电电流", "电流上限"],
+          "semantic_keys": ["max_current", "current"],
+          "value_type": "number",
+          "unit": "A",
+          "required": true,
+          "default_value": "normal_max_current",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "current_soc",
+          "field_name": "当前荷电状态",
+          "spn": null,
+          "aliases": ["SOC", "当前SOC", "荷电状态"],
+          "semantic_keys": ["soc"],
+          "value_type": "number",
+          "unit": "%",
+          "required": true,
+          "default_value": "normal_soc",
+          "valid_range": "0..100",
+          "invalid_values": ["101", "-1"]
+        }
+      ]
+    },
+    "CRO": {
+      "message_name": "充电机输出准备就绪报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "充电准备就绪阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "charger_ready_status",
+          "field_name": "充电机输出准备就绪状态",
+          "spn": null,
+          "aliases": ["准备就绪状态", "输出准备", "充电机准备就绪", "CRO状态"],
+          "semantic_keys": ["ready_status"],
+          "value_type": "enum",
+          "required": true,
+          "default_value": "ready",
+          "normal_values": ["ready"],
+          "invalid_values": ["not_ready", "invalid_enum"]
+        }
+      ]
+    },
+    "BRO": {
+      "message_name": "车辆充电准备就绪报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电准备就绪阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "vehicle_ready_status",
+          "field_name": "车辆充电准备就绪状态",
+          "spn": null,
+          "aliases": ["车辆准备就绪", "BMS准备就绪", "BRO状态"],
+          "semantic_keys": ["ready_status"],
+          "value_type": "enum",
+          "required": true,
+          "default_value": "ready",
+          "normal_values": ["ready"],
+          "invalid_values": ["not_ready", "invalid_enum"]
+        }
+      ]
+    },
+    "BCL": {
+      "message_name": "电池充电需求报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "demand_voltage",
+          "field_name": "电压需求",
+          "spn": null,
+          "aliases": ["需求电压", "请求电压", "充电电压需求"],
+          "semantic_keys": ["voltage", "demand_voltage"],
+          "value_type": "number",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_voltage",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "demand_current",
+          "field_name": "电流需求",
+          "spn": null,
+          "aliases": ["需求电流", "请求电流", "充电电流需求"],
+          "semantic_keys": ["current", "demand_current"],
+          "value_type": "number",
+          "unit": "A",
+          "required": true,
+          "default_value": "normal_current",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "charge_mode",
+          "field_name": "充电模式",
+          "spn": null,
+          "aliases": ["充电模式", "恒压恒流", "控制模式"],
+          "semantic_keys": ["charge_mode"],
+          "value_type": "enum",
+          "required": true,
+          "default_value": "default",
+          "invalid_values": ["invalid_enum"]
+        }
+      ]
+    },
+    "BCS": {
+      "message_name": "电池充电总状态报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "measured_voltage",
+          "field_name": "充电电压测量值",
+          "spn": null,
+          "aliases": ["测量电压", "当前电压", "充电电压"],
+          "semantic_keys": ["voltage", "measured_voltage"],
+          "value_type": "number",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_voltage",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "measured_current",
+          "field_name": "充电电流测量值",
+          "spn": null,
+          "aliases": ["测量电流", "当前电流", "充电电流"],
+          "semantic_keys": ["current", "measured_current"],
+          "value_type": "number",
+          "unit": "A",
+          "required": true,
+          "default_value": "normal_current",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "current_soc",
+          "field_name": "当前荷电状态",
+          "spn": null,
+          "aliases": ["SOC", "当前SOC", "荷电状态"],
+          "semantic_keys": ["soc"],
+          "value_type": "number",
+          "unit": "%",
+          "required": true,
+          "default_value": "normal_soc",
+          "valid_range": "0..100",
+          "invalid_values": ["101", "-1"]
+        }
+      ]
+    },
+    "BSM": {
+      "message_name": "动力蓄电池状态信息报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "max_temperature",
+          "field_name": "最高动力蓄电池温度",
+          "spn": null,
+          "aliases": ["最高温度", "电池最高温度", "温度最高值"],
+          "semantic_keys": ["temperature", "max_temperature"],
+          "value_type": "number",
+          "unit": "degC",
+          "required": true,
+          "default_value": "normal_temperature",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "min_temperature",
+          "field_name": "最低动力蓄电池温度",
+          "spn": null,
+          "aliases": ["最低温度", "电池最低温度", "温度最低值"],
+          "semantic_keys": ["min_temperature"],
+          "value_type": "number",
+          "unit": "degC",
+          "required": true,
+          "default_value": "normal_temperature",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "status_flags",
+          "field_name": "电池状态标志",
+          "spn": null,
+          "aliases": ["状态标志", "故障标志", "电池状态"],
+          "semantic_keys": ["status_flags"],
+          "value_type": "bitset",
+          "required": true,
+          "default_value": "normal",
+          "invalid_values": ["invalid_bits"]
+        }
+      ]
+    },
+    "BMT": {
+      "message_name": "动力蓄电池温度报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "temperature_values",
+          "field_name": "动力蓄电池温度采样值",
+          "spn": null,
+          "aliases": ["温度采样值", "电池温度", "单体温度", "温度列表"],
+          "semantic_keys": ["temperature"],
+          "value_type": "array<number>",
+          "unit": "degC",
+          "required": true,
+          "default_value": "normal_temperature_values",
+          "invalid_values": ["out_of_range", "invalid_count"]
+        }
+      ]
+    },
+    "BMV": {
+      "message_name": "动力蓄电池单体电压报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "cell_voltage_values",
+          "field_name": "动力蓄电池单体电压值",
+          "spn": null,
+          "aliases": ["单体电压", "电池单体电压", "电压列表"],
+          "semantic_keys": ["cell_voltage", "voltage"],
+          "value_type": "array<number>",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_cell_voltage_values",
+          "invalid_values": ["out_of_range", "invalid_count"]
+        }
+      ]
+    },
+    "BSP": {
+      "message_name": "动力蓄电池预留状态报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "reserved_status",
+          "field_name": "动力蓄电池预留状态信息",
+          "spn": null,
+          "aliases": ["预留状态", "BSP状态", "电池预留状态"],
+          "semantic_keys": ["reserved_status"],
+          "value_type": "bytes",
+          "required": false,
+          "default_value": "default",
+          "invalid_values": ["invalid_reserved_bits"]
+        }
+      ]
+    },
+    "CCS": {
+      "message_name": "充电机充电状态报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "充电阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "output_voltage",
+          "field_name": "充电机输出电压",
+          "spn": null,
+          "aliases": ["输出电压", "充电机电压", "实际输出电压"],
+          "semantic_keys": ["voltage", "output_voltage"],
+          "value_type": "number",
+          "unit": "V",
+          "required": true,
+          "default_value": "normal_voltage",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "output_current",
+          "field_name": "充电机输出电流",
+          "spn": null,
+          "aliases": ["输出电流", "充电机电流", "实际输出电流"],
+          "semantic_keys": ["current", "output_current"],
+          "value_type": "number",
+          "unit": "A",
+          "required": true,
+          "default_value": "normal_current",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "charge_allowed",
+          "field_name": "充电允许状态",
+          "spn": null,
+          "aliases": ["允许充电", "充电允许", "输出允许"],
+          "semantic_keys": ["charge_allowed"],
+          "value_type": "enum",
+          "required": true,
+          "default_value": "allowed",
+          "normal_values": ["allowed"],
+          "invalid_values": ["not_allowed", "invalid_enum"]
+        }
+      ]
+    },
+    "BST": {
+      "message_name": "BMS中止充电报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电结束或中止阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "stop_reason",
+          "field_name": "BMS中止充电原因",
+          "spn": null,
+          "aliases": ["中止原因", "车辆中止原因", "BMS中止原因"],
+          "semantic_keys": ["stop_reason"],
+          "value_type": "bitset",
+          "required": true,
+          "default_value": "normal_stop",
+          "invalid_values": ["invalid_bits"]
+        },
+        {
+          "field_id": "fault_reason",
+          "field_name": "BMS中止充电故障原因",
+          "spn": null,
+          "aliases": ["故障原因", "车辆故障原因", "BMS故障原因"],
+          "semantic_keys": ["fault_reason"],
+          "value_type": "bitset",
+          "required": false,
+          "default_value": "none",
+          "invalid_values": ["invalid_bits"]
+        }
+      ]
+    },
+    "CST": {
+      "message_name": "充电机中止充电报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "充电结束或中止阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "stop_reason",
+          "field_name": "充电机中止充电原因",
+          "spn": null,
+          "aliases": ["中止原因", "充电机中止原因", "停止原因"],
+          "semantic_keys": ["stop_reason"],
+          "value_type": "bitset",
+          "required": true,
+          "default_value": "normal_stop",
+          "invalid_values": ["invalid_bits"]
+        },
+        {
+          "field_id": "fault_reason",
+          "field_name": "充电机中止充电故障原因",
+          "spn": null,
+          "aliases": ["故障原因", "充电机故障原因"],
+          "semantic_keys": ["fault_reason"],
+          "value_type": "bitset",
+          "required": false,
+          "default_value": "none",
+          "invalid_values": ["invalid_bits"]
+        }
+      ]
+    },
+    "BSD": {
+      "message_name": "BMS统计数据报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "充电结束或中止阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "start_soc",
+          "field_name": "中止荷电状态SOC",
+          "spn": null,
+          "aliases": ["开始SOC", "起始SOC", "中止SOC"],
+          "semantic_keys": ["soc", "start_soc"],
+          "value_type": "number",
+          "unit": "%",
+          "required": true,
+          "default_value": "normal_soc",
+          "invalid_values": ["101", "-1"]
+        },
+        {
+          "field_id": "end_soc",
+          "field_name": "当前荷电状态SOC",
+          "spn": null,
+          "aliases": ["结束SOC", "当前SOC", "最终SOC"],
+          "semantic_keys": ["end_soc"],
+          "value_type": "number",
+          "unit": "%",
+          "required": true,
+          "default_value": "normal_soc",
+          "invalid_values": ["101", "-1"]
+        }
+      ]
+    },
+    "CSD": {
+      "message_name": "充电机统计数据报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "充电结束或中止阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "charge_duration",
+          "field_name": "累计充电时间",
+          "spn": null,
+          "aliases": ["累计充电时间", "充电时间", "持续时间"],
+          "semantic_keys": ["duration", "charge_duration"],
+          "value_type": "number",
+          "unit": "min",
+          "required": true,
+          "default_value": "normal_duration",
+          "invalid_values": ["out_of_range"]
+        },
+        {
+          "field_id": "output_energy",
+          "field_name": "累计输出能量",
+          "spn": null,
+          "aliases": ["累计输出能量", "输出电量", "充电电量"],
+          "semantic_keys": ["energy"],
+          "value_type": "number",
+          "unit": "kWh",
+          "required": true,
+          "default_value": "normal_energy",
+          "invalid_values": ["out_of_range"]
+        }
+      ]
+    },
+    "BEM": {
+      "message_name": "BMS错误报文",
+      "sender": "BMS/EVCC",
+      "receiver": "SECC",
+      "stage": "错误处理阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "error_reason",
+          "field_name": "BMS错误原因",
+          "spn": null,
+          "aliases": ["错误原因", "BMS错误", "超时错误", "错误码"],
+          "semantic_keys": ["error_reason", "error_code"],
+          "value_type": "bitset",
+          "required": true,
+          "default_value": "matched_error",
+          "invalid_values": ["missing_error", "invalid_bits"]
+        }
+      ]
+    },
+    "CEM": {
+      "message_name": "充电机错误报文",
+      "sender": "SECC",
+      "receiver": "BMS/EVCC",
+      "stage": "错误处理阶段",
+      "default_cycle_ms": 250,
+      "fields": [
+        {
+          "field_id": "error_reason",
+          "field_name": "充电机错误原因",
+          "spn": null,
+          "aliases": ["错误原因", "充电机错误", "超时错误", "错误码"],
+          "semantic_keys": ["error_reason", "error_code"],
+          "value_type": "bitset",
+          "required": true,
+          "default_value": "matched_error",
+          "invalid_values": ["missing_error", "invalid_bits"]
+        }
+      ]
+    }
+  }
+}

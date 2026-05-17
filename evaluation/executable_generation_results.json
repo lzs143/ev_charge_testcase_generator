@@ -1,0 +1,9 @@
+{
+  "total": 36,
+  "metrics": {
+    "generation_success_rate": 1.0,
+    "action_mapping_rate": 1.0,
+    "assertion_mapping_rate": 1.0
+  },
+  "failures": []
+}

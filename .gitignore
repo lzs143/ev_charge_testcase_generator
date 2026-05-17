@@ -1,0 +1,28 @@
+# Python 缓存与测试临时文件
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest_tmp/
+
+# 本地虚拟环境与构建产物
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+
+# 运行输出、模型权重和导出文件
+outputs/
+*.pt
+*.pth
+*.onnx
+
+# 标准原文 PDF 体积较大，且不适合作为代码仓库内容提交
+GB/
+
+# 编辑器与系统文件
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,523 @@
+{
+  "flow_id": "DC_CHARGING_SEQUENCE",
+  "flow_name": "直流充电主时序知识库",
+  "scene_type": "DC",
+  "target_object": "BMS/EVCC",
+  "tester_role": "测试系统/SECC",
+  "standard_basis": [
+    "GB/T 27930-2023",
+    "GB/T 34658-2025"
+  ],
+  "default_parameters": {
+    "can_baudrate": "250kbit/s",
+    "default_message_cycle_ms": 250,
+    "power_on_wait_ms": 2000,
+    "power_down_wait_ms": 2000
+  },
+  "global_entry_steps": [
+    {
+      "action_id": "PHY_LOCK-00001",
+      "action_name": "充电接口物理连接并完全锁止",
+      "action_type": "物理连接",
+      "target": "BMS/EVCC",
+      "description": "建立直流充电接口物理连接并确认锁止状态"
+    },
+    {
+      "action_id": "CAN_CONFIG-00002",
+      "action_name": "CAN通信波特率配置",
+      "action_type": "通信配置",
+      "target": "CAN总线",
+      "parameters": {
+        "baudrate": "250kbit/s"
+      },
+      "description": "将测试系统与BMS/EVCC的CAN通信波特率统一配置为250kbit/s"
+    },
+    {
+      "action_id": "AUX_POWER_ON-00003",
+      "action_name": "闭合低压辅助供电回路",
+      "action_type": "低压供电控制",
+      "target": "低压辅助回路",
+      "description": "闭合低压辅助供电回路，使BMS/EVCC进入上电待机状态"
+    },
+    {
+      "action_id": "SLEEP-2000",
+      "action_name": "wait2s",
+      "action_type": "等待",
+      "target": "测试系统",
+      "duration_ms": 2000,
+      "description": "等待BMS/EVCC上电稳定"
+    },
+    {
+      "action_id": "CAN_RECORD_START-00004",
+      "action_name": "启动CAN报文录制",
+      "action_type": "数据记录",
+      "target": "CAN总线",
+      "description": "开始记录后续测试过程中的CAN报文"
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": "dc_handshake",
+      "stage_name": "低压辅助上电及充电握手阶段",
+      "keywords": [
+        "握手",
+        "CHM",
+        "BHM"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "DC_CHM_BHM_HANDSHAKE",
+          "name": "CHM-BHM握手响应检查",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "receiver": "BMS/EVCC",
+            "action_id": "SEND_CHM-00005",
+            "action_name": "周期发送CHM报文",
+            "action_type": "发送报文",
+            "message": "CHM",
+            "cycle_ms": 250,
+            "description": "测试系统按250ms周期发送CHM充电机握手报文"
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "receiver": "测试系统/SECC",
+            "action_id": "WAIT_BHM-00006",
+            "action_name": "等待接收BHM报文",
+            "action_type": "等待报文",
+            "message": "BHM",
+            "expected_cycle_ms": 250,
+            "monitor_duration_ms": 1250,
+            "description": "监测BMS/EVCC是否按规定周期回应BHM车辆握手报文"
+          },
+          "checks": [
+            {
+              "assertion_id": "CHECK_BHM_PERIOD-00007",
+              "assertion_type": "message_period",
+              "message": "BHM",
+              "operator": "equals",
+              "expected_value": "250ms",
+              "description": "校验BHM发送周期=250ms"
+            },
+            {
+              "assertion_id": "CHECK_BHM_CONTENT-00008",
+              "assertion_type": "message_field",
+              "message": "BHM",
+              "operator": "matches_standard",
+              "expected_value": "SPN2601=车辆端绝缘监测允许总电压，报文长度=2字节",
+              "description": "校验BHM_SPN2601和报文长度符合标准要求"
+            }
+          ],
+          "exit_steps": [
+            {
+              "action_id": "STOP_CHM-00009",
+              "action_name": "停止发送CHM报文",
+              "action_type": "停止发送报文",
+              "message": "CHM",
+              "description": "测试系统接收到有效BHM后停止发送CHM"
+            }
+          ]
+        },
+        {
+          "interaction_id": "DC_CHM_TIMEOUT_BEM_ERROR_RESPONSE",
+          "name": "CHM超时-BEM错误响应检查",
+          "fault_type": "报文超时",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "receiver": "BMS/EVCC",
+            "action_name": "等待CHM报文超时",
+            "action_type": "等待报文",
+            "message": "CHM",
+            "timeout_ms": 70000,
+            "description": "测试系统等待CHM报文直到超时"
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "receiver": "测试系统/SECC",
+            "action_name": "等待接收BEM错误报文",
+            "action_type": "等待报文",
+            "message": "BEM",
+            "monitor_duration_ms": 1250,
+            "description": "检查BMS/EVCC在CHM超时后是否发送BEM错误报文"
+          },
+          "checks": [
+            {
+              "assertion_id": null,
+              "assertion_type": "message_presence",
+              "message": "BEM",
+              "operator": "should_receive",
+              "expected_value": "BEM",
+              "description": "应收到BMS/EVCC回复的BEM错误报文"
+            }
+          ]
+        },
+        {
+          "interaction_id": "DC_CHM_CYCLE_ERROR_BEM_RESPONSE",
+          "name": "CHM周期错误-BEM错误响应交互",
+          "fault_type": "报文周期错误",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "receiver": "BMS/EVCC",
+            "action_id": "SEND_CHM-00005",
+            "action_name": "发送错误CHM报文",
+            "action_type": "发送报文",
+            "message": "CHM",
+            "parameters": {
+              "fault_type": "报文周期错误",
+              "message_variant": "invalid_cycle",
+              "cycle_ms": "500",
+              "expected_cycle_ms": "250"
+            },
+            "cycle_ms": 500,
+            "description": "充电机/SECC按异常周期发送CHM报文，观察BMS/EVCC是否回复BEM错误报文"
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "receiver": "测试系统/SECC",
+            "action_name": "等待接收BEM错误报文",
+            "action_type": "等待报文",
+            "message": "BEM",
+            "expected_cycle_ms": 250,
+            "monitor_duration_ms": 1250,
+            "description": "检查BMS/EVCC收到错误CHM后是否回复BEM错误报文"
+          },
+          "checks": [
+            {
+              "assertion_id": null,
+              "assertion_type": "message_presence",
+              "message": "BEM",
+              "operator": "should_receive",
+              "expected_value": "BEM",
+              "description": "应收到BMS/EVCC回复的BEM错误报文"
+            }
+          ],
+          "exit_steps": [
+            {
+              "action_id": "STOP_CHM-00009",
+              "action_name": "停止发送CHM报文",
+              "action_type": "停止发送报文",
+              "message": "CHM",
+              "description": "测试系统停止发送错误CHM报文"
+            }
+          ]
+        },
+        {
+          "interaction_id": "DC_CHM_ID_ERROR_BEM_RESPONSE",
+          "name": "CHM报文ID错误-BEM错误响应交互",
+          "fault_type": "报文ID错误",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "receiver": "BMS/EVCC",
+            "action_id": "SEND_CHM-00005",
+            "action_name": "发送错误CHM报文",
+            "action_type": "发送报文",
+            "message": "CHM",
+            "parameters": {
+              "fault_type": "报文ID错误",
+              "message_variant": "invalid_id",
+              "message_id": "invalid",
+              "expected_message_id": "default"
+            },
+            "cycle_ms": 250,
+            "description": "充电机/SECC发送报文ID错误的CHM报文，观察BMS/EVCC是否回复BEM错误报文"
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "receiver": "测试系统/SECC",
+            "action_name": "等待接收BEM错误报文",
+            "action_type": "等待报文",
+            "message": "BEM",
+            "expected_cycle_ms": 250,
+            "monitor_duration_ms": 1250,
+            "description": "检查BMS/EVCC收到错误CHM后是否回复BEM错误报文"
+          },
+          "checks": [
+            {
+              "assertion_id": null,
+              "assertion_type": "message_presence",
+              "message": "BEM",
+              "operator": "should_receive",
+              "expected_value": "BEM",
+              "description": "应收到BMS/EVCC回复的BEM错误报文"
+            }
+          ],
+          "exit_steps": [
+            {
+              "action_id": "STOP_CHM-00009",
+              "action_name": "停止发送CHM报文",
+              "action_type": "停止发送报文",
+              "message": "CHM",
+              "description": "测试系统停止发送错误CHM报文"
+            }
+          ]
+        },
+        {
+          "interaction_id": "DC_INVALID_CHM_BEM_ERROR_RESPONSE",
+          "name": "错误CHM-BEM错误响应检查",
+          "fault_type": "报文内容错误",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "receiver": "BMS/EVCC",
+            "action_id": "SEND_CHM-00005",
+            "action_name": "发送错误CHM报文",
+            "action_type": "发送报文",
+            "message": "CHM",
+            "parameters": {
+              "message_variant": "invalid_content",
+              "fault_type": "报文内容错误",
+              "content_error_type": "data_content_error"
+            },
+            "cycle_ms": 250,
+            "description": "测试系统模拟SECC发送字段或格式错误的CHM报文"
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "receiver": "测试系统/SECC",
+            "action_name": "等待接收BEM错误报文",
+            "action_type": "等待报文",
+            "message": "BEM",
+            "expected_cycle_ms": 250,
+            "monitor_duration_ms": 1250,
+            "description": "检查BMS/EVCC收到错误CHM后是否回复BEM错误报文"
+          },
+          "checks": [
+            {
+              "assertion_id": null,
+              "assertion_type": "message_presence",
+              "message": "BEM",
+              "operator": "should_receive",
+              "expected_value": "BEM",
+              "description": "应收到BMS/EVCC回复的BEM错误报文"
+            }
+          ],
+          "exit_steps": [
+            {
+              "action_id": "STOP_CHM-00009",
+              "action_name": "停止发送CHM报文",
+              "action_type": "停止发送报文",
+              "message": "CHM",
+              "description": "测试系统停止发送错误CHM报文"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_id": "dc_identification",
+      "stage_name": "辨识阶段",
+      "keywords": [
+        "辨识",
+        "BRM",
+        "CRM"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "DC_CRM_BRM_IDENTIFICATION",
+          "name": "CRM-BRM车辆辨识报文交互",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "action_id": "SEND_CRM-00010",
+            "action_name": "周期发送CRM报文",
+            "action_type": "发送报文",
+            "message": "CRM",
+            "cycle_ms": 250
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "action_id": "WAIT_BRM-00011",
+            "action_name": "等待接收BRM报文",
+            "action_type": "等待报文",
+            "message": "BRM",
+            "expected_cycle_ms": 250
+          },
+          "checks": [
+            {
+              "assertion_id": "BRM_CHECK-00008",
+              "assertion_type": "message_presence",
+              "message": "BRM",
+              "operator": "should_receive",
+              "description": "校验BMS/EVCC发送BRM车辆辨识报文"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_id": "dc_parameter_config",
+      "stage_name": "充电参数配置阶段",
+      "keywords": [
+        "参数配置",
+        "BCP",
+        "CML"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "DC_CML_BCP_PARAMETER_CONFIG",
+          "name": "CML-BCP充电参数配置交互",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "action_id": "SEND_CML-00013",
+            "action_name": "周期发送CML报文",
+            "action_type": "发送报文",
+            "message": "CML",
+            "cycle_ms": 250
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "action_id": "WAIT_BCP-00014",
+            "action_name": "等待接收BCP报文",
+            "action_type": "等待报文",
+            "message": "BCP",
+            "expected_cycle_ms": 250
+          },
+          "checks": [
+            {
+              "assertion_id": "BCP_CHECK-00012",
+              "assertion_type": "message_presence",
+              "message": "BCP",
+              "operator": "should_receive",
+              "description": "校验BMS/EVCC发送BCP车辆充电参数报文"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_id": "dc_ready",
+      "stage_name": "充电准备就绪阶段",
+      "keywords": [
+        "准备就绪",
+        "BRO",
+        "CRO"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "DC_CRO_BRO_READY",
+          "name": "CRO-BRO充电准备就绪交互",
+          "stimulus": {
+            "sender": "测试系统/SECC",
+            "action_id": "SEND_CRO-00015",
+            "action_name": "发送CRO",
+            "action_type": "发送报文",
+            "message": "CRO",
+            "cycle_ms": 250
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "action_name": "等待接收BRO",
+            "action_type": "等待报文",
+            "message": "BRO",
+            "expected_cycle_ms": 250
+          },
+          "checks": [
+            {
+              "assertion_id": "BRO_CHECK-00014",
+              "assertion_type": "message_presence",
+              "message": "BRO",
+              "operator": "should_receive",
+              "description": "校验BMS/EVCC发送BRO车辆充电准备就绪报文"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_id": "dc_energy_transfer",
+      "stage_name": "充电阶段",
+      "keywords": [
+        "充电阶段",
+        "能量传输",
+        "BCL",
+        "BCS",
+        "BSM",
+        "CCS"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "DC_CHARGING_STATUS_MONITOR",
+          "name": "直流充电需求与状态报文监测",
+          "response": {
+            "sender": "BMS/EVCC",
+            "action_id": "WAIT_BCL-00018",
+            "action_name": "等待接收BCL报文",
+            "action_type": "等待报文",
+            "message": "BCL,BCS,BSM",
+            "expected_cycle_ms": 250
+          },
+          "checks": [
+            {
+              "assertion_id": "BCL_CHECK-00031",
+              "assertion_type": "message_presence",
+              "message": "BCL",
+              "operator": "should_receive",
+              "description": "校验BMS/EVCC发送电池充电需求报文"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_id": "dc_stop",
+      "stage_name": "充电结束或中止阶段",
+      "keywords": [
+        "结束",
+        "中止",
+        "BST",
+        "CST",
+        "BSD",
+        "CSD"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "DC_STOP_AND_STATISTICS",
+          "name": "直流充电停止与统计报文交互",
+          "response": {
+            "sender": "BMS/EVCC",
+            "action_name": "等待接收BST/BSD",
+            "action_type": "等待报文",
+            "message": "BST,BSD"
+          },
+          "checks": [
+            {
+              "assertion_id": "BST_CHECK-00041",
+              "assertion_type": "message_presence",
+              "message": "BST",
+              "operator": "should_receive",
+              "description": "校验BMS/EVCC发送车辆中止充电报文或统计报文"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_cleanup_steps": [
+    {
+      "action_id": "AUX_POWER_OFF-00022",
+      "action_name": "断开低压辅助供电回路",
+      "action_type": "低压供电控制",
+      "target": "低压辅助回路",
+      "description": "断开低压辅助供电回路"
+    },
+    {
+      "action_id": "SLEEP-2000",
+      "action_name": "wait2s",
+      "action_type": "等待",
+      "target": "测试系统",
+      "duration_ms": 2000,
+      "description": "等待设备安全下电"
+    },
+    {
+      "action_id": "PHY_UNLOCK-00006",
+      "action_name": "解除物理连接锁止并断开接口",
+      "action_type": "物理连接",
+      "target": "BMS/EVCC",
+      "description": "解除锁止并断开直流充电接口"
+    },
+    {
+      "action_id": "CAN_RECORD_STOP-00023",
+      "action_name": "停止CAN报文录制并归档",
+      "action_type": "数据记录",
+      "target": "CAN总线",
+      "description": "停止报文录制并归档测试数据"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "sample_ac_normal_001",
+    "scene": "ac_normal",
+    "requirement": "车辆连接交流充电桩后，应能正常启动充电并在达到目标电量后停止。"
+  },
+  {
+    "id": "sample_dc_fault_001",
+    "scene": "dc_fault",
+    "requirement": "直流充电过程中发生绝缘故障时，系统应停止充电并上报告警。"
+  }
+]

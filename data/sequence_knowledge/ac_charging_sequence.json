@@ -1,0 +1,188 @@
+{
+  "flow_id": "AC_CHARGING_SEQUENCE",
+  "flow_name": "交流充电主时序知识库",
+  "scene_type": "AC",
+  "target_object": "BMS/EVCC",
+  "tester_role": "测试系统/交流供电设备",
+  "standard_basis": [
+    "GB/T 18487.1-2023"
+  ],
+  "default_parameters": {
+    "cp_frequency_hz": 1000,
+    "default_cp_duty": "按测试需求配置",
+    "state_monitor_wait_ms": 1000
+  },
+  "global_entry_steps": [
+    {
+      "action_id": "AC_PHY_CONNECT-00001",
+      "action_name": "交流充电接口物理连接",
+      "action_type": "物理连接",
+      "target": "BMS/EVCC",
+      "description": "建立交流充电接口物理连接"
+    },
+    {
+      "action_id": "AC_CP_INIT-00002",
+      "action_name": "CP信号初始化",
+      "action_type": "信号配置",
+      "target": "CP",
+      "parameters": {
+        "frequency_hz": 1000
+      },
+      "description": "配置交流供电设备侧CP基础信号"
+    },
+    {
+      "action_id": "AC_CC_CHECK-00003",
+      "action_name": "检测CC连接确认状态",
+      "action_type": "信号检测",
+      "target": "CC",
+      "description": "确认车辆连接状态满足交流充电测试前置条件"
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": "ac_connection_confirm",
+      "stage_name": "连接确认阶段",
+      "keywords": [
+        "连接确认",
+        "CC"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "AC_CC_CONNECTION_CONFIRM",
+          "name": "CC连接确认检查",
+          "stimulus": {
+            "sender": "测试系统/交流供电设备",
+            "action_id": "AC_CC_CHECK-00003",
+            "action_name": "检测CC连接确认状态",
+            "action_type": "信号检测",
+            "signal": "CC"
+          },
+          "checks": [
+            {
+              "assertion_id": "AC_CC_CHECK-00004",
+              "assertion_type": "signal_state",
+              "signal": "CC",
+              "operator": "matches_standard",
+              "description": "校验CC连接确认状态符合交流充电连接要求"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_id": "ac_cp_guidance",
+      "stage_name": "导引控制阶段",
+      "keywords": [
+        "导引",
+        "CP",
+        "占空比"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "AC_CP_DUTY_GUIDANCE",
+          "name": "CP占空比导引控制检查",
+          "stimulus": {
+            "sender": "测试系统/交流供电设备",
+            "action_id": "AC_CP_SET-00010",
+            "action_name": "设置CP占空比",
+            "action_type": "信号配置",
+            "signal": "CP",
+            "parameters": {
+              "duty": "由测试需求给定"
+            }
+          },
+          "response": {
+            "sender": "BMS/EVCC",
+            "action_id": "AC_CP_WAIT-00011",
+            "action_name": "等待车辆侧充电允许状态",
+            "action_type": "等待状态",
+            "signal": "CP"
+          },
+          "checks": [
+            {
+              "assertion_id": "AC_CP_CHECK-00012",
+              "assertion_type": "signal_state",
+              "signal": "CP",
+              "operator": "matches_standard",
+              "description": "校验BMS/EVCC根据CP占空比进入对应充电允许或限制状态"
+            }
+          ]
+        },
+        {
+          "interaction_id": "AC_CP_FAULT_PROTECTION",
+          "name": "CP信号异常保护检查",
+          "stimulus": {
+            "sender": "测试系统/交流供电设备",
+            "action_id": "AC_CP_FAULT-00013",
+            "action_name": "注入CP信号异常",
+            "action_type": "故障注入",
+            "signal": "CP"
+          },
+          "checks": [
+            {
+              "assertion_id": "AC_CP_FAULT_CHECK-00014",
+              "assertion_type": "state",
+              "operator": "should_stop_charge",
+              "expected_value": "停止充电并提示异常状态",
+              "description": "校验BMS/EVCC在CP信号异常时停止充电并进入保护状态"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "stage_id": "ac_charging",
+      "stage_name": "交流充电阶段",
+      "keywords": [
+        "交流充电",
+        "充电过程",
+        "允许充电"
+      ],
+      "interactions": [
+        {
+          "interaction_id": "AC_CHARGE_ENABLE",
+          "name": "交流允许充电状态检查",
+          "stimulus": {
+            "sender": "测试系统/交流供电设备",
+            "action_id": "AC_START-00020",
+            "action_name": "输出交流允许充电导引信号",
+            "action_type": "信号配置",
+            "signal": "CP"
+          },
+          "checks": [
+            {
+              "assertion_id": "AC_CHARGE_CHECK-00021",
+              "assertion_type": "state",
+              "operator": "should_allow_charge",
+              "expected_value": "允许充电",
+              "description": "校验BMS/EVCC进入交流允许充电状态"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_cleanup_steps": [
+    {
+      "action_id": "AC_STOP-00030",
+      "action_name": "停止交流充电输出",
+      "action_type": "状态控制",
+      "target": "测试系统/交流供电设备",
+      "description": "停止交流供电输出并恢复安全状态"
+    },
+    {
+      "action_id": "AC_CP_RESET-00031",
+      "action_name": "CP信号复位",
+      "action_type": "信号配置",
+      "target": "CP",
+      "description": "恢复CP信号到非充电状态"
+    },
+    {
+      "action_id": "AC_PHY_DISCONNECT-00032",
+      "action_name": "断开交流充电接口",
+      "action_type": "物理连接",
+      "target": "BMS/EVCC",
+      "description": "断开交流充电接口连接"
+    }
+  ]
+}
