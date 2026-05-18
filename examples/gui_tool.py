@@ -364,8 +364,10 @@ class SemanticExtractionGUI:
             },
             "事件语义": event_set.to_dict(),
             "测试动作": {
-                "控制动作": result.actions,
-                "预期结果": result.expected_results,
+                "测试刺激": [event.description for event in event_set.stimulus],
+                "期望响应": [event.description for event in event_set.expected_response],
+                "检查点": [event.description for event in event_set.checks],
+                "原始动作词": result.actions,
             },
             "质量指标": {
                 "抽取置信度": f"{result.confidence:.1%}",
