@@ -8,6 +8,7 @@ from typing import Any
 from .models import ExtractedInfo
 from .sequence_expander import SequenceExpander
 from .sequence_knowledge import SequenceKnowledgeLoader, SequenceKnowledgeNotFoundError
+from .semantic_events import build_semantic_events
 from .semantic_extractor import SemanticExtractionResult, SemanticExtractor
 
 
@@ -56,6 +57,7 @@ class RuleBasedExecutableExtractor:
         scene_type = str(semantic_result.scene_type)
         condition_type = semantic_result.condition_type or "normal"
         messages = semantic_result.message_types
+        semantic_events = build_semantic_events(semantic_result)
         target = semantic_result.target_object or self._infer_target_object(text, scene_type)
         test_stage = semantic_result.test_stage
         test_type = semantic_result.test_type or ("negative" if condition_type == "fault" else "positive")
@@ -99,6 +101,7 @@ class RuleBasedExecutableExtractor:
             "metadata": {
                 "extractor": "rule_based_executable",
                 "semantic": self._semantic_metadata(semantic_result),
+                "semantic_events": semantic_events.to_dict(),
                 "sequence_knowledge": sequence_expansion.metadata,
                 "sequence_expanded": sequence_expansion.matched,
             },

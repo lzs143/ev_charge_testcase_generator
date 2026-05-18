@@ -16,6 +16,7 @@ from ev_charge_testcase_generator.semantic_extraction_factory import (
     available_semantic_methods,
     build_semantic_extractor,
 )
+from ev_charge_testcase_generator.semantic_events import build_semantic_events
 from ev_charge_testcase_generator.semantic_extractor import SemanticExtractor
 
 
@@ -319,14 +320,15 @@ class SemanticExtractionGUI:
             self.semantic_text.config(state=tk.DISABLED)
             return
 
-        semantic_dict = self._build_semantic_dict(result)
-        semantic_output = self._format_semantic_summary(result, semantic_dict)
+        event_set = build_semantic_events(result)
+        semantic_dict = self._build_semantic_dict(result, event_set)
+        semantic_output = self._format_semantic_summary(result, semantic_dict, event_set)
         self.semantic_text.config(state=tk.NORMAL)
         self.semantic_text.delete(1.0, tk.END)
         self.semantic_text.insert(tk.END, semantic_output)
         self.semantic_text.config(state=tk.DISABLED)
 
-    def _build_semantic_dict(self, result) -> dict:
+    def _build_semantic_dict(self, result, event_set) -> dict:
         """构造语义抽取结构化结果，便于展示和调试。"""
 
         return {
@@ -357,9 +359,10 @@ class SemanticExtractionGUI:
             },
             "参数与信号": {
                 "参数": result.parameters,
-                "报文类型": result.message_types,
+                "报文类型": event_set.protocol_messages,
                 "信号": result.signals,
             },
+            "事件语义": event_set.to_dict(),
             "测试动作": {
                 "控制动作": result.actions,
                 "预期结果": result.expected_results,
@@ -370,7 +373,7 @@ class SemanticExtractionGUI:
             },
         }
 
-    def _format_semantic_summary(self, result, semantic_dict: dict) -> str:
+    def _format_semantic_summary(self, result, semantic_dict: dict, event_set) -> str:
         """按测试用例生成视角展示关键语义，而不是直接倾倒 JSON。"""
 
         warnings = self._visible_warnings(result.warnings)
@@ -391,13 +394,19 @@ class SemanticExtractionGUI:
         output += "二、对象、报文与信号\n"
         output += f"  被测对象：{result.target_object or '未识别'}\n"
         output += f"  测试系统角色：{result.tester_role or '未识别'}\n"
-        output += f"  报文类型：{self._format_list(result.message_types)}\n"
+        output += f"  报文类型：{self._format_list(event_set.protocol_messages)}\n"
+        output += f"  通信对象：{self._format_list(event_set.communication_objects)}\n"
         output += f"  物理/控制信号：{self._format_list(result.signals)}\n\n"
 
-        output += "三、动作、条件与期望\n"
-        output += f"  触发条件：{result.trigger_condition or '未明确'}\n"
-        output += f"  控制动作：{self._format_list(result.actions)}\n"
-        output += f"  预期结果：{self._format_list(result.expected_results)}\n\n"
+        output += "三、事件语义\n"
+        output += f"  触发条件：{event_set.trigger_condition or result.trigger_condition or '未明确'}\n"
+        output += "  测试刺激：\n"
+        output += self._format_events(event_set.stimulus, "暂未识别测试刺激")
+        output += "  期望响应：\n"
+        output += self._format_events(event_set.expected_response, "暂未识别期望响应")
+        output += "  检查点：\n"
+        output += self._format_events(event_set.checks, "暂未识别检查点")
+        output += "\n"
 
         output += "四、参数\n"
         output += self._format_parameters(result.parameters)
@@ -432,6 +441,18 @@ class SemanticExtractionGUI:
         output = ""
         for key, value in parameters.items():
             output += f"  {key}：{value}\n"
+        return output
+
+    @staticmethod
+    def _format_events(events: list, empty_text: str) -> str:
+        """格式化事件语义列表。"""
+
+        if not events:
+            return f"    - {empty_text}\n"
+        output = ""
+        for index, event in enumerate(events, start=1):
+            message = f"（报文：{event.message}）" if event.message else ""
+            output += f"    {index}. {event.description}{message}\n"
         return output
 
     @staticmethod

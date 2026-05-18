@@ -9,6 +9,7 @@ from typing import Any
 from ev_charge_testcase_generator.extractor import RuleBasedExtractor
 from ev_charge_testcase_generator.models import ExtractedInfo
 from ev_charge_testcase_generator.preprocessing import preprocess_text
+from ev_charge_testcase_generator.semantic_events import PROTOCOL_MESSAGES
 from ev_charge_testcase_generator.semantic_extractor import SemanticExtractionResult, SemanticExtractor
 
 
@@ -62,7 +63,7 @@ class MacBertGlobalPointerSemanticExtractor(SemanticExtractor):
         # 故障类型包含强关键词和参数规则，优先保留规则判断，避免小样本分类头把“周期错误”误判为其他故障。
         fault_type = self._normalize_none(self._pick(rule_result.fault_type, classes.get("fault_type")))
 
-        message_types = self._unique([*self._entity_texts(entities, "MESSAGE"), *rule_result.message_types])
+        message_types = self._protocol_messages([*self._entity_texts(entities, "MESSAGE"), *rule_result.message_types])
         actions = self._unique([*self._entity_texts(entities, "ACTION"), *rule_result.actions])
         signals = self._unique([*self._entity_texts(entities, "SIGNAL"), *rule_result.signals])
         expected_results = self._unique([*rule_result.expected_results, *self._entity_texts(entities, "EXPECTED_EXPR")])
@@ -269,3 +270,11 @@ class MacBertGlobalPointerSemanticExtractor(SemanticExtractor):
             if value and value not in result:
                 result.append(value)
         return result
+
+    @staticmethod
+    def _protocol_messages(values: list[str]) -> list[str]:
+        """过滤 BMS 等通信对象，只保留真实协议报文名。"""
+
+        return MacBertGlobalPointerSemanticExtractor._unique(
+            [value for value in values if value in PROTOCOL_MESSAGES]
+        )
